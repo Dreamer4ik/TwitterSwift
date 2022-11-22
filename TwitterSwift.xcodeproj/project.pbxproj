@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF2780BD292CD4D100819191 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780BC292CD4D100819191 /* LoginViewController.swift */; };
+		DF2780BF292CD4F900819191 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780BE292CD4F900819191 /* RegisterViewController.swift */; };
+		DF2780C1292CD7CF00819191 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C0292CD7CF00819191 /* AuthField.swift */; };
+		DF2780C3292CDC0800819191 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C2292CDC0800819191 /* AuthButton.swift */; };
+		DF2780C8292CE70F00819191 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C7292CE70F00819191 /* Utilities.swift */; };
 		DFF598E2292A35B4004D777E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF598E1292A35B4004D777E /* AppDelegate.swift */; };
 		DFF598E4292A35B4004D777E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF598E3292A35B4004D777E /* SceneDelegate.swift */; };
 		DFF598E6292A35B4004D777E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF598E5292A35B4004D777E /* ViewController.swift */; };
@@ -21,6 +26,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DF2780BC292CD4D100819191 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DF2780BE292CD4F900819191 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DF2780C0292CD7CF00819191 /* AuthField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
+		DF2780C2292CDC0800819191 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
+		DF2780C7292CE70F00819191 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		DFF598DE292A35B4004D777E /* TwitterSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFF598E1292A35B4004D777E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFF598E3292A35B4004D777E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +57,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF2780BB292CD4C400819191 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DF2780BC292CD4D100819191 /* LoginViewController.swift */,
+				DF2780BE292CD4F900819191 /* RegisterViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		DF2780C4292CDE4900819191 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DF2780C0292CD7CF00819191 /* AuthField.swift */,
+				DF2780C2292CDC0800819191 /* AuthButton.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		DFF598D5292A35B4004D777E = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +120,7 @@
 		DFF598F6292A35C9004D777E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DF2780C4292CDE4900819191 /* Auth */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,6 +135,7 @@
 		DFF598F8292A35DB004D777E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DF2780BB292CD4C400819191 /* Auth */,
 				DFF598FB292A367E004D777E /* MainTabBarViewController.swift */,
 				DFF598FD292A3B6F004D777E /* FeedViewController.swift */,
 				DFF598FF292A3BA5004D777E /* ExploreViewController.swift */,
@@ -126,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				DFF59905292A497B004D777E /* Extensions.swift */,
+				DF2780C7292CE70F00819191 /* Utilities.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -200,7 +231,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF2780C1292CD7CF00819191 /* AuthField.swift in Sources */,
+				DF2780C3292CDC0800819191 /* AuthButton.swift in Sources */,
 				DFF598E6292A35B4004D777E /* ViewController.swift in Sources */,
+				DF2780C8292CE70F00819191 /* Utilities.swift in Sources */,
+				DF2780BF292CD4F900819191 /* RegisterViewController.swift in Sources */,
 				DFF59906292A497B004D777E /* Extensions.swift in Sources */,
 				DFF598FC292A367E004D777E /* MainTabBarViewController.swift in Sources */,
 				DFF59900292A3BA5004D777E /* ExploreViewController.swift in Sources */,
@@ -208,6 +243,7 @@
 				DFF598FE292A3B6F004D777E /* FeedViewController.swift in Sources */,
 				DFF598E2292A35B4004D777E /* AppDelegate.swift in Sources */,
 				DFF59902292A3BB9004D777E /* NotificationsViewController.swift in Sources */,
+				DF2780BD292CD4D100819191 /* LoginViewController.swift in Sources */,
 				DFF598E4292A35B4004D777E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

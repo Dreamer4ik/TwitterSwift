@@ -8,6 +8,35 @@
 import UIKit
 
 extension UIView {
+    
+    func inputContainerView(image: UIImage, textField: UITextField? = nil) -> UIView {
+        let view = UIView()
+        
+        let imageView = UIImageView()
+        imageView.image = image
+        view.addSubview(imageView)
+        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
+        if let textField = textField {
+            imageView.centerY(inView: view)
+            imageView.anchor(left: view.leftAnchor, paddingLeft: 8, width: 24, height: 24)
+            
+            view.addSubview(textField)
+            textField.centerY(inView: view)
+            textField.anchor(left: imageView.rightAnchor, bottom: view.bottomAnchor,
+                             right: view.rightAnchor, paddingLeft: 8, paddingBottom: 8)
+        }
+        
+        let separatorView = UIView()
+        separatorView.backgroundColor = .white
+        view.addSubview(separatorView)
+        separatorView.anchor(left: view.leftAnchor, bottom: view.bottomAnchor,
+                             right: view.rightAnchor, paddingLeft: 8, height: 0.75)
+        
+        return view
+    }
+    
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
                 bottom: NSLayoutYAxisAnchor? = nil,
