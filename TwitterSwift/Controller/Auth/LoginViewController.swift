@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
     }()
     
     private let haveNotAccountButton = Utilities.attributedButton("Don't have an account?   ",
-                                                                    "Sign Up")
+                                                                  "Sign Up")
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +88,41 @@ class LoginViewController: UIViewController {
             return
         }
         
-        print(email)
+        AuthService.shared.logUserIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("Error user log in \(error.localizedDescription)")
+                return
+            }
+            
+            var window: UIWindow?
+            
+            if #unavailable(iOS 15) {
+                window = UIApplication.shared.windows.first(where: {
+                    $0.isKeyWindow
+                })
+            } else {
+                window = UIApplication.shared.connectedScenes
+                // Keep only active scenes, onscreen and visible to the user
+                    .filter { $0.activationState == .foregroundActive }
+                // Keep only the first `UIWindowScene`
+                    .first(where: { $0 is UIWindowScene })
+                // Get its associated windows
+                    .flatMap({ $0 as? UIWindowScene })?.windows
+                // Finally, keep only the key window
+                    .first(where: \.isKeyWindow)
+            }
+            
+            guard let windowFinall = window else {
+                return
+            }
+            
+            guard let tab = windowFinall.rootViewController as? MainTabBarViewController else {
+                return
+            }
+            tab.authenticateUserAndConfigureUI()
+            
+            self.dismiss(animated: true)
+        }
     }
     
     @objc private func didTapHaveNotAccountButton() {

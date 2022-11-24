@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabBarViewController: UITabBarController {
     
@@ -17,11 +18,32 @@ class MainTabBarViewController: UITabBarController {
         button.setImage(UIImage(named: "new_tweet"), for: .normal)
         return button
     }()
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewControllers()
-        configureUI()
+//        logOut()
+        view.backgroundColor = .twitterBlue
+        authenticateUserAndConfigureUI()
+    }
+    
+    // MARK: - API
+    @objc func authenticateUserAndConfigureUI() {
+        if Auth.auth().currentUser == nil {
+            presentLoginController()
+        } else {
+            configureViewControllers()
+            configureUI()
+        }
+    }
+    
+    private func logOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let error {
+            print("Failed to sign out with error \(error.localizedDescription)")
+        }
     }
     
     // MARK: - Helpers
@@ -82,6 +104,18 @@ class MainTabBarViewController: UITabBarController {
             
             return nav
         }
+    
+    private func presentLoginController() {
+        DispatchQueue.main.async {
+            let vc = LoginViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            if #available(iOS 13.0, *) {
+                nav.isModalInPresentation = true
+            }
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
     
     // MARK: - Actions
     @objc private func didTapActionButton() {

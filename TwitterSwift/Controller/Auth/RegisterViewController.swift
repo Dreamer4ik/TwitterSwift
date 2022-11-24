@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterViewController: UIViewController {
     // MARK: - Properties
     private let imagePicker = UIImagePickerController()
+    private var profileImage: UIImage?
     
     private let selectPhotoButton: UIButton = {
         let button = UIButton(type: .system)
@@ -97,6 +99,57 @@ class RegisterViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func didTapSignUp() {
+        guard let profileImage = profileImage else {
+            print("Please select a profile image...")
+            return
+        }
+        
+        guard let email = emailTextField.text?.lowercased(),
+              let password = passwordTextField.text,
+              let fullname = fullnameTextField.text,
+              let username = usernameTextField.text else {
+            return
+        }
+        
+        let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
+        
+        AuthService.shared.registerUser(withCredentials: credentials) { error, ref  in
+            if let error = error {
+                print("Failed to register user with error \(error.localizedDescription)")
+                return
+            }
+            
+            print("Register successful")
+            var window: UIWindow?
+            
+            if #unavailable(iOS 15) {
+                window = UIApplication.shared.windows.first(where: {
+                    $0.isKeyWindow
+                })
+            } else {
+                window = UIApplication.shared.connectedScenes
+                // Keep only active scenes, onscreen and visible to the user
+                    .filter { $0.activationState == .foregroundActive }
+                // Keep only the first `UIWindowScene`
+                    .first(where: { $0 is UIWindowScene })
+                // Get its associated windows
+                    .flatMap({ $0 as? UIWindowScene })?.windows
+                // Finally, keep only the key window
+                    .first(where: \.isKeyWindow)
+            }
+            
+            guard let windowFinall = window else {
+                return
+            }
+            
+            guard let tab = windowFinall.rootViewController as? MainTabBarViewController else {
+                return
+            }
+            tab.authenticateUserAndConfigureUI()
+            
+            self.dismiss(animated: true)
+        }
+        
         
     }
     
@@ -119,6 +172,7 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
         guard let image = info[.editedImage] as? UIImage else {
             return
         }
+        self.profileImage = image
         selectPhotoButton.layer.borderColor = UIColor.white.cgColor
         selectPhotoButton.layer.borderWidth = 3
         selectPhotoButton.layer.cornerRadius = 150/2
