@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FeedViewController: UIViewController {
-    
     // MARK: - Properties
+    
+    var user: User? {
+        didSet {
+            configureLeftBarItem()
+        }
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,20 @@ class FeedViewController: UIViewController {
         let imageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
+    }
+    
+    private func configureLeftBarItem() {
+        guard let user = user else {
+            return
+        }
+        let profileImageView = UIImageView()
+        profileImageView.setDimensions(width: 32, height: 32)
+        profileImageView.layer.cornerRadius = 32/2
+        profileImageView.clipsToBounds = true
+        
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
     }
     
     // MARK: - Actions

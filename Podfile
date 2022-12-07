@@ -12,5 +12,6 @@ target 'TwitterSwift' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
+  pod 'SDWebImage'
 
 end
