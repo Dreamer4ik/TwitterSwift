@@ -8,6 +8,18 @@
 import UIKit
 
 class Utilities {
+    static func configureNavBar(vc: UIViewController) {
+        if #available(iOS 15.0, *) {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.backgroundColor = .white
+            vc.navigationItem.standardAppearance = barAppearance
+            vc.navigationItem.scrollEdgeAppearance = barAppearance
+            
+        } else {
+            vc.navigationController?.navigationBar.backgroundColor = .white
+        }
+    }
+    
    static func attributedButton(_ firstPart: String, _ secondPart: String) -> UIButton {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
