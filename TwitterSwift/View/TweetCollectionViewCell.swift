@@ -77,10 +77,6 @@ class TweetCollectionViewCell: UICollectionViewCell {
         stack.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor,
                      right: rightAnchor, paddingLeft: 12, paddingRight: 12)
         
-        captionLabel.text = "Some caption text"
-        infoLabel.text = "Rusnya Pidary"
-        infoLabel.font = .systemFont(ofSize: 14)
-        
         let actionStack = UIStackView(arrangedSubviews: [commentButton,
                                                          retweetButton,
                                                          likeButton,
@@ -114,8 +110,10 @@ class TweetCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Helpers
-    private func configureUI() {
-        
+    func configure(viewModel: TweetViewModel) {
+        captionLabel.text = viewModel.tweet.caption
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        infoLabel.attributedText = viewModel.userInfoText
     }
     
     // MARK: - Actions

@@ -20,6 +20,12 @@ class FeedViewController: UIViewController {
         return collectionView
     }()
     
+    private var tweets = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     var user: User? {
         didSet {
             configureLeftBarItem()
@@ -36,7 +42,7 @@ class FeedViewController: UIViewController {
     // MARK: - API
     private func fetchTweets() {
         TweetService.shared.fetchTweets { tweets in
-            print("Tweets are \(tweets)")
+            self.tweets = tweets
         }
     }
     
@@ -72,9 +78,10 @@ class FeedViewController: UIViewController {
     // MARK: - Actions
 }
 
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        return tweets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -84,11 +91,15 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
         ) as? TweetCollectionViewCell else {
             preconditionFailure("TweetCollectionViewCell Error")
         }
+        let tweet = tweets[indexPath.row]
+        let viewModel = TweetViewModel(tweet: tweet)
+        cell.configure(viewModel: viewModel)
         
         return cell
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension FeedViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.width, height: 120)

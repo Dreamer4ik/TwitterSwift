@@ -107,7 +107,7 @@ class RegisterViewController: UIViewController {
         guard let email = emailTextField.text?.lowercased(),
               let password = passwordTextField.text,
               let fullname = fullnameTextField.text,
-              let username = usernameTextField.text else {
+              let username = usernameTextField.text?.lowercased() else {
             return
         }
         

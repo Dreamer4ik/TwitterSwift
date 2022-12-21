@@ -11,6 +11,7 @@ import Firebase
 class MainTabBarViewController: UITabBarController {
     
     // MARK: - Properties
+    let currentUser = Auth.auth().currentUser
     var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
@@ -39,7 +40,10 @@ class MainTabBarViewController: UITabBarController {
     
     // MARK: - API
     private func fetchUser() {
-        UserService.shared.fetchUser { user in
+        guard let uid = currentUser?.uid else {
+            return
+        }
+        UserService.shared.fetchUser(uid: uid) { user in
             self.user = user
         }
     }
