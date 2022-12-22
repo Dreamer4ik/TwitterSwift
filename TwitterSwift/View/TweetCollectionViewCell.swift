@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol TweetCollectionViewCellDelegate: AnyObject {
+    func handleProfileImageTapped()
+}
+
 class TweetCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "TweetCollectionViewCell"
+    weak var delegate: TweetCollectionViewCellDelegate?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -103,6 +108,10 @@ class TweetCollectionViewCell: UICollectionViewCell {
         retweetButton.addTarget(self, action: #selector(didTapRetweet), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
         shareButton.addTarget(self, action: #selector(didTapShare), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
@@ -131,5 +140,9 @@ class TweetCollectionViewCell: UICollectionViewCell {
     
     @objc private func didTapShare() {
         print("didTapShare")
+    }
+    
+    @objc private func didTapProfileImage() {
+        delegate?.handleProfileImageTapped()
     }
 }

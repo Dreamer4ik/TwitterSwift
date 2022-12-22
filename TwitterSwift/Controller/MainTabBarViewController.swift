@@ -108,7 +108,7 @@ class MainTabBarViewController: UITabBarController {
     private func templateNavigationController(
         image: UIImage?,
         rootViewController: UIViewController) -> UINavigationController {
-            let nav = UINavigationController(rootViewController: rootViewController)
+            let nav = MyNavigationController(rootViewController: rootViewController)
             nav.tabBarItem.image = image
             
             if #available(iOS 15.0, *) {

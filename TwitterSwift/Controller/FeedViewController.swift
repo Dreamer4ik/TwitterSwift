@@ -91,6 +91,8 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
         ) as? TweetCollectionViewCell else {
             preconditionFailure("TweetCollectionViewCell Error")
         }
+        
+        cell.delegate = self
         let tweet = tweets[indexPath.row]
         let viewModel = TweetViewModel(tweet: tweet)
         cell.configure(viewModel: viewModel)
@@ -103,6 +105,13 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension FeedViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.width, height: 120)
+    }
+}
+
+extension FeedViewController: TweetCollectionViewCellDelegate {
+    func handleProfileImageTapped() {
+        let vc = ProfileViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
