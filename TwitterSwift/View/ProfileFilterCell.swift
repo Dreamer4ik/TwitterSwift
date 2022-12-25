@@ -11,11 +11,12 @@ class ProfileFilterCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "ProfileFilterCell"
     
+    var option: ProfileFilterOptions?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 14)
-        label.text = "Test filter"
         return label
     }()
     
@@ -38,6 +39,10 @@ class ProfileFilterCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureFilter(option: ProfileFilterOptions) {
+        titleLabel.text = option.description
     }
     
     // MARK: - Helpers

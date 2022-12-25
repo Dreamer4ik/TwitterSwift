@@ -16,6 +16,8 @@
 		DF2780C1292CD7CF00819191 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C0292CD7CF00819191 /* AuthField.swift */; };
 		DF2780C3292CDC0800819191 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C2292CDC0800819191 /* AuthButton.swift */; };
 		DF2780C8292CE70F00819191 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2780C7292CE70F00819191 /* Utilities.swift */; };
+		DF2D77F529588EB400E2E73F /* ProfileFilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2D77F429588EB400E2E73F /* ProfileFilterOptions.swift */; };
+		DF2D77F72958953600E2E73F /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2D77F62958953600E2E73F /* ProfileHeaderViewModel.swift */; };
 		DF2EDE6D29409FFD00B456AF /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2EDE6C29409FFD00B456AF /* UserService.swift */; };
 		DF2EDE6F2940A3CD00B456AF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2EDE6E2940A3CD00B456AF /* User.swift */; };
 		DF31CA6E2954DC0D00A72394 /* ProfileFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */; };
@@ -52,6 +54,8 @@
 		DF2780C0292CD7CF00819191 /* AuthField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
 		DF2780C2292CDC0800819191 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		DF2780C7292CE70F00819191 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		DF2D77F429588EB400E2E73F /* ProfileFilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterOptions.swift; sourceTree = "<group>"; };
+		DF2D77F62958953600E2E73F /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		DF2EDE6C29409FFD00B456AF /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		DF2EDE6E2940A3CD00B456AF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterView.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 			isa = PBXGroup;
 			children = (
 				DF4B30702953836E00ACFD79 /* TweetViewModel.swift */,
+				DF2D77F429588EB400E2E73F /* ProfileFilterOptions.swift */,
+				DF2D77F62958953600E2E73F /* ProfileHeaderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -353,10 +359,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF2D77F529588EB400E2E73F /* ProfileFilterOptions.swift in Sources */,
 				DF2780C1292CD7CF00819191 /* AuthField.swift in Sources */,
 				DF2780C3292CDC0800819191 /* AuthButton.swift in Sources */,
 				DF2780C8292CE70F00819191 /* Utilities.swift in Sources */,
 				DFDF0E1C2944FAF500366350 /* Tweet.swift in Sources */,
+				DF2D77F72958953600E2E73F /* ProfileHeaderViewModel.swift in Sources */,
 				DF2780BF292CD4F900819191 /* RegisterViewController.swift in Sources */,
 				DFE12F72292E276D007560FC /* Constants.swift in Sources */,
 				DF221473295460D300384589 /* ProfileViewController.swift in Sources */,

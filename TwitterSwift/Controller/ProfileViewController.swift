@@ -10,6 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
 
     // MARK: - Properties
+    private let user: User
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -24,6 +25,15 @@ class ProfileViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -58,6 +68,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeader.identifier, for: indexPath) as? ProfileHeader else {
             preconditionFailure("ProfileHeader error")
         }
+        
+        header.user = user
         
         return header
     }

@@ -8,13 +8,15 @@
 import UIKit
 
 protocol TweetCollectionViewCellDelegate: AnyObject {
-    func handleProfileImageTapped()
+    func handleProfileImageTapped(_ cell: TweetCollectionViewCell, viewModel: TweetViewModel)
 }
 
 class TweetCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "TweetCollectionViewCell"
     weak var delegate: TweetCollectionViewCellDelegate?
+    
+    private var viewModel: TweetViewModel?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -120,6 +122,7 @@ class TweetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Helpers
     func configure(viewModel: TweetViewModel) {
+        self.viewModel = viewModel
         captionLabel.text = viewModel.tweet.caption
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
         infoLabel.attributedText = viewModel.userInfoText
@@ -143,6 +146,9 @@ class TweetCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapProfileImage() {
-        delegate?.handleProfileImageTapped()
+        guard let viewModel = viewModel else {
+            return
+        }
+        delegate?.handleProfileImageTapped(self, viewModel: viewModel)
     }
 }

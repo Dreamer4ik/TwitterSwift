@@ -11,6 +11,12 @@ class ProfileHeader: UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "ProfileHeader"
     
+    var user: User? {
+        didSet {
+            configure()
+        }
+    }
+    
     private let filterBar = ProfileFilterView()
     
     private let containerView: UIView = {
@@ -27,7 +33,7 @@ class ProfileHeader: UICollectionReusableView {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .lightGray
         imageView.layer.borderColor = UIColor.white.cgColor
@@ -37,7 +43,6 @@ class ProfileHeader: UICollectionReusableView {
     
     private let editProfileFollowButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Loading", for: .normal)
         button.layer.borderColor = UIColor.twitterBlue.cgColor
         button.layer.borderWidth = 1.25
         button.setTitleColor(.twitterBlue, for: .normal)
@@ -48,7 +53,6 @@ class ProfileHeader: UICollectionReusableView {
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 20)
-        label.text = "Leo Kage"
         return label
     }()
     
@@ -56,7 +60,6 @@ class ProfileHeader: UICollectionReusableView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.textColor = .lightGray
-        label.text = "@check"
         return label
     }()
     
@@ -68,10 +71,26 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
+    private let followingLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    private let followersLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        return view
+    }()
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+        filterBar.delegate = self
         configureUI()
     }
     
@@ -114,8 +133,42 @@ class ProfileHeader: UICollectionReusableView {
         userDetailsStack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor,
                                 paddingTop: 8, paddingLeft: 12, paddingRight: 12)
         
+        
+        let followStack = UIStackView(arrangedSubviews: [followingLabel, followersLabel])
+        followStack.spacing = 8
+        followStack.distribution = .fillEqually
+        
+        let followTap = UITapGestureRecognizer(target: self, action: #selector(didTapFollowLabel))
+        followingLabel.isUserInteractionEnabled = true
+        followingLabel.addGestureRecognizer(followTap)
+        
+        let followerTap = UITapGestureRecognizer(target: self, action: #selector(didTapFollowersLabel))
+        followersLabel.isUserInteractionEnabled = true
+        followersLabel.addGestureRecognizer(followerTap)
+        
+        addSubview(followStack)
+        followStack.anchor(top: userDetailsStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
+        
         addSubview(filterBar)
         filterBar.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 50)
+        
+        addSubview(underlineView)
+        underlineView.anchor(left: leftAnchor,bottom: bottomAnchor, width: width/3, height: 2)
+    }
+    
+    func configure() {
+        guard let user = user else {
+            return
+        }
+        let viewModel = ProfileHeaderViewModel(user: user)
+        
+        fullnameLabel.text = user.fullname
+        usernameLabel.text = "@\(user.username)"
+        
+        editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+        followersLabel.attributedText = viewModel.followersString
+        followingLabel.attributedText = viewModel.followingString
     }
     
     // MARK: - Actions
@@ -125,5 +178,27 @@ class ProfileHeader: UICollectionReusableView {
     
     @objc private func didTapEditProfileFollowButton() {
         
+    }
+    
+    @objc private func didTapFollowLabel() {
+        
+    }
+    
+    @objc private func didTapFollowersLabel() {
+        
+    }
+}
+
+// MARK: - ProfileFilterViewDelegate
+extension ProfileHeader: ProfileFilterViewDelegate {
+    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
+        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileFilterCell else {
+            return
+        }
+        
+        let xPosition = cell.left
+        UIView.animate(withDuration: 0.3) {
+            self.underlineView.frame.origin.x = xPosition
+        }
     }
 }
