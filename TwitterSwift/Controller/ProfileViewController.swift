@@ -12,6 +12,12 @@ class ProfileViewController: UIViewController {
     // MARK: - Properties
     private let user: User
     
+    private var tweets = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -37,16 +43,28 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchTweets()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
      override var preferredStatusBarStyle: UIStatusBarStyle {
          return .lightContent
      }
-
+    
+    // MARK: - API
+    
+    private func fetchTweets() {
+        TweetService.shared.fetchTweets(forUser: user) { tweets in
+            self.tweets = tweets
+        }
+    }
     
     // MARK: - Helpers
     private func configureUI() {
-        navigationController?.navigationBar.isHidden = true
         view.addSubview(collectionView)
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.frame = view.bounds
@@ -61,7 +79,7 @@ class ProfileViewController: UIViewController {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return tweets.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -69,6 +87,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             preconditionFailure("ProfileHeader error")
         }
         
+        header.delegate = self
         header.user = user
         
         return header
@@ -82,10 +101,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             preconditionFailure("TweetCollectionViewCell Error")
         }
         
-//        cell.delegate = self
-//        let tweet = tweets[indexPath.row]
-//        let viewModel = TweetViewModel(tweet: tweet)
-//        cell.configure(viewModel: viewModel)
+        let tweet = tweets[indexPath.row]
+        let viewModel = TweetViewModel(tweet: tweet)
+        cell.configure(viewModel: viewModel)
         
         return cell
     }
@@ -99,5 +117,12 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.width, height: 120)
+    }
+}
+
+// MARK: - ProfileHeaderDelegate
+extension ProfileViewController: ProfileHeaderDelegate {
+    func didTapBack() {
+        navigationController?.popViewController(animated: true)
     }
 }

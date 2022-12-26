@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol ProfileHeaderDelegate: AnyObject {
+    func didTapBack()
+}
+
 class ProfileHeader: UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "ProfileHeader"
+    weak var delegate: ProfileHeaderDelegate?
     
     var user: User? {
         didSet {
@@ -163,7 +168,7 @@ class ProfileHeader: UICollectionReusableView {
         let viewModel = ProfileHeaderViewModel(user: user)
         
         fullnameLabel.text = user.fullname
-        usernameLabel.text = "@\(user.username)"
+        usernameLabel.text = viewModel.usernameText
         
         editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         profileImageView.sd_setImage(with: user.profileImageUrl)
@@ -173,7 +178,7 @@ class ProfileHeader: UICollectionReusableView {
     
     // MARK: - Actions
     @objc private func didTapBackButton() {
-        
+        delegate?.didTapBack()
     }
     
     @objc private func didTapEditProfileFollowButton() {
