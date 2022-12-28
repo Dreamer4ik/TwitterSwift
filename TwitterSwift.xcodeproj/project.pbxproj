@@ -25,6 +25,7 @@
 		DF31CA722954F6B300A72394 /* MyNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF31CA712954F6B300A72394 /* MyNavigationController.swift */; };
 		DF4B30712953836E00ACFD79 /* TweetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4B30702953836E00ACFD79 /* TweetViewModel.swift */; };
 		DF526FE429530F38003E4AC6 /* TweetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF526FE329530F38003E4AC6 /* TweetCollectionViewCell.swift */; };
+		DF6958E4295C4A030072E68A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6958E3295C4A030072E68A /* UserTableViewCell.swift */; };
 		DFCF4622292FCAC400FA96AE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCF4621292FCAC400FA96AE /* AuthService.swift */; };
 		DFDCC39729410A68007CC1A2 /* UploadTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDCC39629410A68007CC1A2 /* UploadTweetViewController.swift */; };
 		DFDF042629449F39007C1EFF /* CaptionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDF042529449F39007C1EFF /* CaptionTextView.swift */; };
@@ -63,6 +64,7 @@
 		DF31CA712954F6B300A72394 /* MyNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNavigationController.swift; sourceTree = "<group>"; };
 		DF4B30702953836E00ACFD79 /* TweetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewModel.swift; sourceTree = "<group>"; };
 		DF526FE329530F38003E4AC6 /* TweetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCollectionViewCell.swift; sourceTree = "<group>"; };
+		DF6958E3295C4A030072E68A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		DFCF4621292FCAC400FA96AE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		DFDCC39629410A68007CC1A2 /* UploadTweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetViewController.swift; sourceTree = "<group>"; };
 		DFDF042529449F39007C1EFF /* CaptionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTextView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				DF2214742954674700384589 /* ProfileHeader.swift */,
 				DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */,
 				DF31CA6F2954E13300A72394 /* ProfileFilterCell.swift */,
+				DF6958E3295C4A030072E68A /* UserTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				DF526FE429530F38003E4AC6 /* TweetCollectionViewCell.swift in Sources */,
 				DFF598FC292A367E004D777E /* MainTabBarViewController.swift in Sources */,
 				DFDCC39729410A68007CC1A2 /* UploadTweetViewController.swift in Sources */,
+				DF6958E4295C4A030072E68A /* UserTableViewCell.swift in Sources */,
 				DF31CA6E2954DC0D00A72394 /* ProfileFilterView.swift in Sources */,
 				DFDF042629449F39007C1EFF /* CaptionTextView.swift in Sources */,
 				DFF59900292A3BA5004D777E /* ExploreViewController.swift in Sources */,
