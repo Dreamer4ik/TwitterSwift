@@ -9,18 +9,13 @@ import UIKit
 
 protocol ProfileHeaderDelegate: AnyObject {
     func didTapBack()
+    func didTapEditProfileFollow(_ header: ProfileHeader)
 }
 
 class ProfileHeader: UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "ProfileHeader"
     weak var delegate: ProfileHeaderDelegate?
-    
-    var user: User? {
-        didSet {
-            configure()
-        }
-    }
     
     private let filterBar = ProfileFilterView()
     
@@ -161,10 +156,7 @@ class ProfileHeader: UICollectionReusableView {
         underlineView.anchor(left: leftAnchor,bottom: bottomAnchor, width: width/3, height: 2)
     }
     
-    func configure() {
-        guard let user = user else {
-            return
-        }
+    func configure(user: User) {
         let viewModel = ProfileHeaderViewModel(user: user)
         
         fullnameLabel.text = user.fullname
@@ -182,7 +174,7 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc private func didTapEditProfileFollowButton() {
-        
+        delegate?.didTapEditProfileFollow(self)
     }
     
     @objc private func didTapFollowLabel() {
