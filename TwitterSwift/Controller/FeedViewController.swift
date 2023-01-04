@@ -104,6 +104,12 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let tweet = tweets[indexPath.row]
+        let vc = TweetViewController(tweet: tweet)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
