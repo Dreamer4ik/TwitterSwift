@@ -12,11 +12,12 @@ class UploadTweetViewController: UIViewController {
     
     // MARK: - Properties
     private let user: User
+    private let config: UploadTweetConfiguration
+    private var viewModel: UploadTweetViewModel?
     
     private let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .twitterBlue
-        button.setTitle("Tweet", for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(.white, for: .normal)
@@ -37,12 +38,21 @@ class UploadTweetViewController: UIViewController {
         return imageView
     }()
     
+    private let replyLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .lightGray
+        return label
+    }()
+    
     private let captionTextView = CaptionTextView()
     
     // MARK: - Lifecycle
-    init(user: User) {
+    init(user: User, config: UploadTweetConfiguration) {
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
+        viewModel = UploadTweetViewModel(config: config)
     }
     
     required init?(coder: NSCoder) {
@@ -59,16 +69,27 @@ class UploadTweetViewController: UIViewController {
         view.backgroundColor = .white
         configureNavigationBar()
         
-        let stack = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
+        let imageCaptionStack = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
+        imageCaptionStack.spacing = 12
+        imageCaptionStack.alignment = .leading
+        
+        let stack = UIStackView(arrangedSubviews: [replyLabel, imageCaptionStack])
+        stack.axis = .vertical
         stack.spacing = 12
         
         view.addSubview(stack)
-        
-        
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
                      paddingTop: 16, paddingLeft: 16, paddingRight: 16)
         
         profileImageView.sd_setImage(with: user.profileImageUrl)
+        
+        guard let viewModel = viewModel else {
+            return
+        }
+        actionButton.setTitle(viewModel.actionButtonTitle, for: .normal)
+        captionTextView.placeholderLabel.text = viewModel.placeholderText
+        replyLabel.isHidden = !viewModel.shouldShowReplyLabel
+        replyLabel.text = viewModel.replyText
     }
     
     private func configureNavigationBar() {
@@ -90,7 +111,7 @@ class UploadTweetViewController: UIViewController {
         guard let caption = captionTextView.text else {
             return
         }
-        TweetService.shared.uploadTweet(caption: caption) { error, ref in
+        TweetService.shared.uploadTweet(caption: caption, type: config) { error, ref in
             if let error = error {
                 print("Failed to upload tweet with \(error.localizedDescription)")
             }

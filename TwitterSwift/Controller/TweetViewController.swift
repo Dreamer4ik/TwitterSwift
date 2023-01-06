@@ -10,7 +10,12 @@ import UIKit
 class TweetViewController: UIViewController {
     
     // MARK: - Properties
-    private let tweet: Tweet?
+    private let tweet: Tweet
+    private var replies = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,8 +43,14 @@ class TweetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchReplies()
     }
-    
+    // MARK: - API
+    private func fetchReplies() {
+        TweetService.shared.fetchReplies(forTweet: tweet) { replies in
+            self.replies = replies
+        }
+    }
     // MARK: - Helpers
     private func configureUI() {
         view.backgroundColor = .white
@@ -56,7 +67,7 @@ class TweetViewController: UIViewController {
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 extension TweetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return replies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -67,6 +78,10 @@ extension TweetViewController: UICollectionViewDelegate, UICollectionViewDataSou
             preconditionFailure("TweetViewController TweetCollectionViewCell Error")
         }
         
+        let reply = replies[indexPath.row]
+        let viewModel = TweetViewModel(tweet: reply)
+        cell.configure(viewModel: viewModel)
+        
         return cell
     }
     
@@ -75,11 +90,7 @@ extension TweetViewController: UICollectionViewDelegate, UICollectionViewDataSou
             preconditionFailure("ProfileHeader error")
         }
         
-        guard let tweet = tweet else {
-            preconditionFailure("ProfileHeader tweet error")
-        }
         header.configure(tweet: tweet)
-        
         return header
     }
 }
@@ -87,7 +98,10 @@ extension TweetViewController: UICollectionViewDelegate, UICollectionViewDataSou
 // MARK: - UICollectionViewDelegateFlowLayout
 extension TweetViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.width, height: 250)
+        let viewModel = TweetViewModel(tweet: tweet)
+        let height = viewModel.size(forWidth: view.width, font: .systemFont(ofSize: 20)).height
+        let increaseHeight: CGFloat = viewModel.tweet.caption.count > 300 ? 120 : 220
+        return CGSize(width: view.width, height: height + increaseHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

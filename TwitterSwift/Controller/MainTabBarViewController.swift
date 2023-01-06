@@ -142,7 +142,7 @@ class MainTabBarViewController: UITabBarController {
         guard let user = user else {
             return
         }
-        let vc = UploadTweetViewController(user: user)
+        let vc = UploadTweetViewController(user: user, config: .tweet)
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
