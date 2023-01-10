@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol TweetHeaderDelegate: AnyObject {
+    func showActionSheet()
+}
+
 class TweetHeader: UICollectionReusableView {
     
     // MARK: - Properties
     static let identifier = "TweetHeader"
+    weak var delegate: TweetHeaderDelegate?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -175,7 +180,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc private func showActionSheet() {
-        
+        delegate?.showActionSheet()
     }
     
     @objc private func didTapCommentButton() {
