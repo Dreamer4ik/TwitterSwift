@@ -1,5 +1,5 @@
 //
-//  CaptionTextView.swift
+//  InputTextView.swift
 //  TwitterSwift
 //
 //  Created by Ivan Potapenko on 10.12.2022.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class CaptionTextView: UITextView {
+class InputTextView: UITextView {
     // MARK: - Properties
     let placeholderLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.textColor = .darkGray
-        label.text = "What's happening?"
         return label
     }()
     

@@ -20,6 +20,8 @@ class FeedViewController: UIViewController {
         return collectionView
     }()
     
+    private let refreshControl = UIRefreshControl()
+    
     private var tweets = [Tweet]() {
         didSet {
             collectionView.reloadData()
@@ -46,20 +48,26 @@ class FeedViewController: UIViewController {
     
     // MARK: - API
     private func fetchTweets() {
+        refreshControl.beginRefreshing()
         TweetService.shared.fetchTweets { tweets in
-            self.tweets = tweets
-            self.checkIfUserLikedTweets(tweets: tweets)
+            self.tweets = tweets.sorted(by: {
+                $0.timestamp ?? Date() > $1.timestamp ?? Date()
+            })
+            self.checkIfUserLikedTweets()
+            self.refreshControl.endRefreshing()
         }
     }
     
-    private func checkIfUserLikedTweets(tweets: [Tweet]) {
-        for (index, tweet) in tweets.enumerated() {
+    private func checkIfUserLikedTweets() {
+        self.tweets.forEach { tweet in
             TweetService.shared.checkIfUserLikedTweet(tweet: tweet) { didLike in
                 guard didLike == true else {
                     return
                 }
                 
-                self.tweets[index].didLike = true
+                if let index = self.tweets.firstIndex(where: {  $0.tweetID == tweet.tweetID  }) {
+                    self.tweets[index].didLike = true
+                }
             }
         }
     }
@@ -77,6 +85,9 @@ class FeedViewController: UIViewController {
         imageView.setDimensions(width: 44, height: 44)
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
+        
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
     
     private func configureLeftBarItem() {
@@ -94,6 +105,9 @@ class FeedViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc private func handleRefresh() {
+        fetchTweets()
+    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource

@@ -15,7 +15,8 @@ class NotificationsViewController: UIViewController {
         table.register(NotificationTableViewCell.self, forCellReuseIdentifier: NotificationTableViewCell.identifier)
         return table
     }()
-    let refreshControl = UIRefreshControl()
+    
+    private let refreshControl = UIRefreshControl()
     
     private var notifications = [Notification]()
     

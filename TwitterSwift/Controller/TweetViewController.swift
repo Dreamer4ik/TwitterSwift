@@ -99,7 +99,7 @@ extension TweetViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TweetHeader.identifier, for: indexPath) as? TweetHeader else {
-            preconditionFailure("ProfileHeader error")
+            preconditionFailure("TweetHeader error")
         }
         
         header.delegate = self
