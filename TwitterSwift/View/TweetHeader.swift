@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol TweetHeaderDelegate: AnyObject {
     func showActionSheet()
+    func handleFetchUser(withUsername username: String)
 }
 
 class TweetHeader: UICollectionReusableView {
@@ -41,17 +43,20 @@ class TweetHeader: UICollectionReusableView {
         return label
     }()
     
-    private let replyLabel: UILabel = {
-        let label = UILabel()
+    private let replyLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 12)
+        label.mentionColor = .twitterBlue
         return label
     }()
     
-    private let captionLabel: UILabel = {
-        let label = UILabel()
+    private let captionLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
+        label.mentionColor = .twitterBlue
+        label.hashtagColor = .twitterBlue
         return label
     }()
     
@@ -167,6 +172,8 @@ class TweetHeader: UICollectionReusableView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
         profileImageView.isUserInteractionEnabled = true
         profileImageView.addGestureRecognizer(tap)
+        
+        configureMentionHandler()
     }
     
     func configure(tweet: Tweet) {
@@ -187,6 +194,12 @@ class TweetHeader: UICollectionReusableView {
         
         replyLabel.isHidden = viewModel.shouldHideReplyLabel
         replyLabel.text = viewModel.replyText
+    }
+    
+    private func configureMentionHandler() {
+        captionLabel.handleMentionTap { username in
+            self.delegate?.handleFetchUser(withUsername: username)
+        }
     }
     
     // MARK: - Actions
@@ -216,11 +229,4 @@ class TweetHeader: UICollectionReusableView {
     @objc private func didTapShareButton() {
         
     }
-//    @objc private func didTapRetweetsButton() {
-//
-//    }
-//
-//    @objc private func didTapLikesButton() {
-//
-//    }
 }

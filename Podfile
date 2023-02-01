@@ -13,5 +13,6 @@ target 'TwitterSwift' do
   pod 'Firebase/Storage'
   pod 'Firebase/Analytics'
   pod 'SDWebImage'
+  pod 'ActiveLabel'
 
 end

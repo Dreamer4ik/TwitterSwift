@@ -125,6 +125,13 @@ extension TweetViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - TweetHeaderDelegate
 extension TweetViewController: TweetHeaderDelegate {
+    func handleFetchUser(withUsername username: String) {
+        UserService.shared.fetchUser(withUsername: username) { user in
+            let vc = ProfileViewController(user: user)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     func showActionSheet() {
         if tweet.user.isCurrentUser {
             showActionSheet(user: tweet.user)

@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import ActiveLabel
 
 class UploadTweetViewController: UIViewController {
     
@@ -38,8 +39,9 @@ class UploadTweetViewController: UIViewController {
         return imageView
     }()
     
-    private let replyLabel: UILabel = {
-        let label = UILabel()
+    private let replyLabel: ActiveLabel = {
+        let label = ActiveLabel()
+        label.mentionColor = .twitterBlue
         label.font = .systemFont(ofSize: 14)
         label.textColor = .lightGray
         return label
@@ -62,6 +64,7 @@ class UploadTweetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureMentionHandler()
     }
     
     // MARK: - Helpers
@@ -100,6 +103,12 @@ class UploadTweetViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionButton)
         actionButton.addTarget(self, action: #selector(didTapTweet), for: .touchUpInside)
+    }
+    
+    private func configureMentionHandler() {
+        replyLabel.handleMentionTap { mention in
+            print(mention)
+        }
     }
     
     // MARK: - Actions

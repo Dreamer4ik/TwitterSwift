@@ -7,10 +7,16 @@
 
 import UIKit
 
+protocol EditProfileTableViewCellDelegate: AnyObject {
+    func updateUserInfo(_ cell: EditProfileTableViewCell, viewModel: EditProfileViewModel)
+}
+
 class EditProfileTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     static let identifier = "EditProfileTableViewCell"
+    weak var delegate: EditProfileTableViewCellDelegate?
+    private var viewModel: EditProfileViewModel?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -18,7 +24,7 @@ class EditProfileTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let infoTextField: UITextField = {
+    let infoTextField: UITextField = {
         let field = UITextField()
         field.borderStyle = .none
         field.font = .systemFont(ofSize: 14)
@@ -27,7 +33,7 @@ class EditProfileTableViewCell: UITableViewCell {
         return field
     }()
     
-    private let bioTextView: InputTextView = {
+    let bioTextView: InputTextView = {
         let textView = InputTextView()
         textView.font = .systemFont(ofSize: 14)
         textView.textColor = .twitterBlue
@@ -62,20 +68,27 @@ class EditProfileTableViewCell: UITableViewCell {
         contentView.addSubview(bioTextView)
         bioTextView.anchor(top: topAnchor, left: titleLabel.rightAnchor,
                            bottom: bottomAnchor, right: rightAnchor,
-                           paddingTop: 4, paddingLeft: 16, paddingRight: 8)
+                           paddingTop: 4, paddingLeft: 12, paddingRight: 8)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateUserInfo), name: UITextView.textDidEndEditingNotification, object: nil)
     }
     
     func configure(viewModel: EditProfileViewModel) {
+        self.viewModel = viewModel
         titleLabel.text = viewModel.titleText
         infoTextField.text = viewModel.defaultValue
         bioTextView.text = viewModel.defaultValue
         
         infoTextField.isHidden = viewModel.shouldHideTextField
         bioTextView.isHidden = viewModel.shouldHideTextView
+        bioTextView.placeholderLabel.isHidden = viewModel.shouldHidePlaceholderLabel
     }
     
     // MARK: - Actions
     @objc private func handleUpdateUserInfo() {
-        
+        guard let viewModel = viewModel else {
+            return
+        }
+        delegate?.updateUserInfo(self, viewModel: viewModel)
     }
 }

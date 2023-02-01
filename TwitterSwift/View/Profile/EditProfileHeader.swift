@@ -61,6 +61,10 @@ class EditProfileHeader: UIView {
         changePhotoButton.addTarget(self, action: #selector(didTapChangePhotoButton), for: .touchUpInside)
     }
     
+    func setImage(image: UIImage) {
+        profileImageView.image = image
+    }
+    
     // MARK: - Actions
     @objc private func didTapChangePhotoButton() {
         delegate?.didTapChangeProfilePhoto()

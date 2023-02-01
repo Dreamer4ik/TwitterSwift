@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol TweetCollectionViewCellDelegate: AnyObject {
     func handleProfileImageTapped(_ cell: TweetCollectionViewCell, viewModel: TweetViewModel)
     func handleReplyTapped(_ cell: TweetCollectionViewCell, viewModel: TweetViewModel)
     func handleLikeTapped(_ cell: TweetCollectionViewCell)
+    func handleFetchUser(withUsername username: String)
 }
 
 class TweetCollectionViewCell: UICollectionViewCell {
@@ -36,17 +38,21 @@ class TweetCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let replyLabel: UILabel = {
-        let label = UILabel()
+    private let replyLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 12)
+        label.mentionColor = .twitterBlue
+        label.hashtagColor = .twitterBlue
         return label
     }()
     
-    private let captionLabel: UILabel = {
-        let label = UILabel()
+    private let captionLabel: ActiveLabel = {
+        let label = ActiveLabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
+        label.mentionColor = .twitterBlue
+        label.hashtagColor = .twitterBlue
         return label
     }()
     
@@ -137,6 +143,8 @@ class TweetCollectionViewCell: UICollectionViewCell {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
         profileImageView.isUserInteractionEnabled = true
         profileImageView.addGestureRecognizer(tap)
+        
+        configureMentionHandler()
     }
     
     required init?(coder: NSCoder) {
@@ -162,6 +170,12 @@ class TweetCollectionViewCell: UICollectionViewCell {
         let viewModel = TweetViewModel(tweet: tweet)
         likeButton.tintColor = viewModel.likeButtonTintColor
         likeButton.setImage(viewModel.likeButtonImageName, for: .normal)
+    }
+    
+    private func configureMentionHandler() {
+        captionLabel.handleMentionTap { username in
+            self.delegate?.handleFetchUser(withUsername: username)
+        }
     }
     
     // MARK: - Actions

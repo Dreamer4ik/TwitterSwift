@@ -194,6 +194,7 @@ extension ProfileViewController: ProfileHeaderDelegate {
         
         if user.isCurrentUser {
             let vc = EditProfileViewController(user: user)
+            vc.delegate = self
             let nav = MyNavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true)
@@ -218,5 +219,13 @@ extension ProfileViewController: ProfileHeaderDelegate {
     
     func didTapBack() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - EditProfileViewControllerDelegate
+extension ProfileViewController: EditProfileViewControllerDelegate {
+    func controller(_ controller: EditProfileViewController, wantsToUpdate user: User) {
+        self.user = user
+        self.collectionView.reloadData()
     }
 }
