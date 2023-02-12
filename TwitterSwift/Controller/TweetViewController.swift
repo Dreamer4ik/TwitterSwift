@@ -125,6 +125,11 @@ extension TweetViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - TweetHeaderDelegate
 extension TweetViewController: TweetHeaderDelegate {
+    func handleProfileImageTapped(viewModel: TweetViewModel) {
+        let vc = ProfileViewController(user: viewModel.user)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func handleFetchUser(withUsername username: String) {
         UserService.shared.fetchUser(withUsername: username) { user in
             let vc = ProfileViewController(user: user)

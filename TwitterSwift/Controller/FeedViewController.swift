@@ -99,6 +99,9 @@ class FeedViewController: UIViewController {
         profileImageView.layer.cornerRadius = 32/2
         profileImageView.clipsToBounds = true
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfleImage))
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(tap)
         profileImageView.sd_setImage(with: user.profileImageUrl)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
@@ -107,6 +110,14 @@ class FeedViewController: UIViewController {
     // MARK: - Actions
     @objc private func handleRefresh() {
         fetchTweets()
+    }
+    
+    @objc private func didTapProfleImage() {
+        guard let user = user else {
+            return
+        }
+        let vc = ProfileViewController(user: user)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -167,7 +178,7 @@ extension FeedViewController: TweetCollectionViewCellDelegate {
             cell.tweet?.likes = likes
             
             guard !tweet.didLike else { return }
-            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
+            NotificationService.shared.uploadNotification(toUser: tweet.user, type: .like, tweetID: tweet.tweetID)
         }
     }
     

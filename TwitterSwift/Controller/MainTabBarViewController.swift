@@ -8,10 +8,16 @@
 import UIKit
 import Firebase
 
+enum ActionButtonConfiguration {
+    case tweet
+    case message
+}
+
 class MainTabBarViewController: UITabBarController {
     
     // MARK: - Properties
-    let currentUser = Auth.auth().currentUser
+    private var buttonConfig: ActionButtonConfiguration = .tweet
+    
     var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
@@ -33,14 +39,13 @@ class MainTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        logOut()
         view.backgroundColor = .twitterBlue
         authenticateUserAndConfigureUI()
     }
     
     // MARK: - API
     private func fetchUser() {
-        guard let uid = currentUser?.uid else {
+        guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
         UserService.shared.fetchUser(uid: uid) { user in
@@ -58,16 +63,9 @@ class MainTabBarViewController: UITabBarController {
         }
     }
     
-    private func logOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            print("Failed to sign out with error \(error.localizedDescription)")
-        }
-    }
-    
     // MARK: - Helpers
     private func configureUI() {
+        self.delegate = self
         view.addSubview(actionButton)
         
         let sizeButton: CGFloat = 56
@@ -81,7 +79,7 @@ class MainTabBarViewController: UITabBarController {
     
     private func configureViewControllers() {
         let feed = FeedViewController()
-        let explore = ExploreViewController()
+        let explore = ExploreViewController(config: .userSearch)
         let notifications = NotificationsViewController()
         let conversations = ConversationsViewController()
         
@@ -139,12 +137,30 @@ class MainTabBarViewController: UITabBarController {
     
     // MARK: - Actions
     @objc private func didTapActionButton() {
-        guard let user = user else {
-            return
+        
+        let vc: UIViewController
+        
+        switch buttonConfig {
+        case .tweet:
+            guard let user = user else {
+                return
+            }
+            vc = UploadTweetViewController(user: user, config: .tweet)
+        case .message:
+            vc = ExploreViewController(config: .messages)
         }
-        let vc = UploadTweetViewController(user: user, config: .tweet)
+        
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
+    }
+}
+
+extension MainTabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let index = viewControllers?.firstIndex(of: viewController)
+        let imageName = index == 3 ? "mail" : "new_tweet"
+        actionButton.setImage(UIImage(named: imageName), for: .normal)
+        buttonConfig = index == 3 ? .message : .tweet
     }
 }

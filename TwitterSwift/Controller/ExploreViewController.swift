@@ -7,9 +7,16 @@
 
 import UIKit
 
+enum ExploreViewControllerConfiguration {
+    case messages
+    case userSearch
+}
+
 class ExploreViewController: UIViewController {
 
     // MARK: - Properties
+    private let config: ExploreViewControllerConfiguration
+    
     private let usersTable: UITableView = {
         let table = UITableView()
         table.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
@@ -35,6 +42,15 @@ class ExploreViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Lifecycle
+    init(config: ExploreViewControllerConfiguration) {
+        self.config = config
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -57,13 +73,17 @@ class ExploreViewController: UIViewController {
     // MARK: - Helpers
     private func configureUI() {
         view.backgroundColor = .white
-        navigationItem.title = "Explore"
+        navigationItem.title = config == .messages ? "New Message" : "Explore"
         
         view.addSubview(usersTable)
         usersTable.frame = view.bounds
         usersTable.delegate = self
         usersTable.dataSource = self
         usersTable.separatorStyle = .none
+        
+        if config == .messages {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
+        }
     }
     
     private func configureSearchController() {
@@ -76,6 +96,9 @@ class ExploreViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc private func didTapCancel() {
+        dismiss(animated: true)
+    }
 
 }
 

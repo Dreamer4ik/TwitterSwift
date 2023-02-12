@@ -11,6 +11,7 @@ import ActiveLabel
 protocol TweetHeaderDelegate: AnyObject {
     func showActionSheet()
     func handleFetchUser(withUsername username: String)
+    func handleProfileImageTapped(viewModel: TweetViewModel)
 }
 
 class TweetHeader: UICollectionReusableView {
@@ -18,6 +19,7 @@ class TweetHeader: UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "TweetHeader"
     weak var delegate: TweetHeaderDelegate?
+    private var viewModel: TweetViewModel?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -97,10 +99,10 @@ class TweetHeader: UICollectionReusableView {
         return view
     }()
     
-    private let commentButton = Utilities.createButton(withImageName: "comment")
-    private let retweetButton = Utilities.createButton(withImageName: "retweet")
-    private let likeButton = Utilities.createButton(withImageName: "like")
-    private let shareButton = Utilities.createButton(withImageName: "share")
+    private let commentButton = Utilities.createButtonForTweetHeader(withImageName: "comment")
+    private let retweetButton = Utilities.createButtonForTweetHeader(withImageName: "retweet")
+    private let likeButton = Utilities.createButtonForTweetHeader(withImageName: "like")
+    private let shareButton = Utilities.createButtonForTweetHeader(withImageName: "share")
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -178,7 +180,7 @@ class TweetHeader: UICollectionReusableView {
     
     func configure(tweet: Tweet) {
         let viewModel = TweetViewModel(tweet: tweet)
-        
+        self.viewModel = viewModel
         captionLabel.text = tweet.caption
         fullnameLabel.text = tweet.user.fullname
         usernameLabel.text = viewModel.usernameText
@@ -204,10 +206,10 @@ class TweetHeader: UICollectionReusableView {
     
     // MARK: - Actions
     @objc private func didTapProfileImage() {
-//        guard let viewModel = viewModel else {
-//            return
-//        }
-//        delegate?.handleProfileImageTapped(self, viewModel: viewModel)
+        guard let viewModel = viewModel else {
+            return
+        }
+        delegate?.handleProfileImageTapped(viewModel: viewModel)
     }
     
     @objc private func showActionSheet() {

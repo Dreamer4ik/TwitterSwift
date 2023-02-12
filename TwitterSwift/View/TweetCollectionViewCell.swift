@@ -56,34 +56,10 @@ class TweetCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let commentButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "comment"), for: .normal)
-        button.tintColor = .darkGray
-        return button
-    }()
-    
-    private let retweetButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "retweet"), for: .normal)
-        button.tintColor = .darkGray
-        return button
-    }()
-    
-    private let likeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "like"), for: .normal)
-        button.tintColor = .darkGray
-        return button
-    }()
-    
-    private let shareButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "share"), for: .normal)
-        button.tintColor = .darkGray
-        return button
-    }()
-    
+    private let commentButton = Utilities.createButtonForTweetCell(withImageName: "comment")
+    private let retweetButton = Utilities.createButtonForTweetCell(withImageName: "retweet")
+    private let likeButton = Utilities.createButtonForTweetCell(withImageName: "like")
+    private let shareButton = Utilities.createButtonForTweetCell(withImageName: "share")
     private let infoLabel = UILabel()
     
     // MARK: - Lifecycle

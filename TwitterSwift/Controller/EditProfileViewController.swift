@@ -9,6 +9,7 @@ import UIKit
 
 protocol EditProfileViewControllerDelegate: AnyObject {
     func controller(_ controller: EditProfileViewController, wantsToUpdate user: User)
+    func handleLogOut()
 }
 
 class EditProfileViewController: UIViewController {
@@ -22,6 +23,7 @@ class EditProfileViewController: UIViewController {
     weak var delegate: EditProfileViewControllerDelegate?
     private var user: User
     private let headerView: EditProfileHeader?
+    private let footerView = EditProfileFooter()
     private let imagePicker = UIImagePickerController()
     private var selectedImage: UIImage?
     
@@ -106,7 +108,10 @@ class EditProfileViewController: UIViewController {
         tableView.tableHeaderView = headerView
         headerView?.delegate = self
         headerView?.frame = CGRect(x: 0, y: 0, width: view.width, height: 180)
-        tableView.tableFooterView = UIView()
+        
+        tableView.tableFooterView = footerView
+        footerView.delegate = self
+        footerView.frame = CGRect(x: 0, y: 0, width: view.width, height: 50)
     }
     
     private func configureNavigationBar() {
@@ -179,6 +184,23 @@ extension EditProfileViewController: UITableViewDelegate, UITableViewDataSource 
 extension EditProfileViewController: EditProfileHeaderDelegate {
     func didTapChangeProfilePhoto() {
         present(imagePicker, animated: true)
+    }
+}
+
+// MARK: - EditProfileFooterDelegate
+extension EditProfileViewController: EditProfileFooterDelegate {
+    func didTapLogOut() {
+        let alert = UIAlertController(title: nil, message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive,handler: { _ in
+            self.dismiss(animated: true) {
+                self.delegate?.handleLogOut()
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alert, animated: true)
     }
 }
 

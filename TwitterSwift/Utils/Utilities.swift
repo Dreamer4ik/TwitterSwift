@@ -36,11 +36,18 @@ class Utilities {
         return button
     }
     
-    static func createButton(withImageName imageName: String) -> UIButton {
+    static func createButtonForTweetHeader(withImageName imageName: String) -> UIButton {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: imageName), for: .normal)
         button.tintColor = .darkGray
         button.setDimensions(width: 20, height: 20)
+        return button
+    }
+    
+    static func createButtonForTweetCell(withImageName imageName: String) -> UIButton{
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: imageName), for: .normal)
+        button.tintColor = .darkGray
         return button
     }
 }

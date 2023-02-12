@@ -13,9 +13,9 @@ struct NotificationService {
     let currentUser = Auth.auth().currentUser
     
     func uploadNotification(
+        toUser user: User,
         type: NotificationType,
-        tweet: Tweet? = nil,
-        user: User? = nil
+        tweetID: String? = nil
     ) {
         guard let uid = currentUser?.uid else {
             return
@@ -26,20 +26,15 @@ struct NotificationService {
             "type": type.rawValue
         ]
         
-        if let tweet = tweet {
-            values["tweetID"] = tweet.tweetID
-            REF_NOTIFICATIONS.child(tweet.user.uid).childByAutoId().updateChildValues(values)
-        } else if let user = user {
-            REF_NOTIFICATIONS.child(user.uid).childByAutoId().updateChildValues(values)
+        if let tweetID = tweetID {
+            values["tweetID"] = tweetID
         }
+        REF_NOTIFICATIONS.child(user.uid).childByAutoId().updateChildValues(values)
     }
     
-    func fetchNotifications(completion: @escaping([Notification]) -> Void) {
-        guard let currentUid = currentUser?.uid else {
-            return
-        }
+    func getNotifications(uid: String, completion: @escaping([Notification]) -> Void) {
         var notifications = [Notification]()
-        REF_NOTIFICATIONS.child(currentUid).observe(.childAdded) { snapshot in
+        REF_NOTIFICATIONS.child(uid).observe(.childAdded) { snapshot in
             guard let dictionary = snapshot.value as? [String: Any],
                   let uid = dictionary["uid"] as? String else {
                 return
@@ -49,6 +44,22 @@ struct NotificationService {
                 let notification = Notification(user: user, dictionary: dictionary)
                 notifications.append(notification)
                 completion(notifications)
+            }
+        }
+    }
+    
+    func fetchNotifications(completion: @escaping([Notification]) -> Void) {
+        guard let currentUid = currentUser?.uid else {
+            return
+        }
+        
+        let notifications = [Notification]()
+        
+        REF_NOTIFICATIONS.child(currentUid).observeSingleEvent(of: .value) { snapshot in
+            if !snapshot.exists() {
+                completion(notifications)
+            } else {
+                self.getNotifications(uid: currentUid, completion: completion)
             }
         }
     }

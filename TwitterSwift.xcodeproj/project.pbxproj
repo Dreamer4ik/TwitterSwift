@@ -23,6 +23,7 @@
 		DF2D77F72958953600E2E73F /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2D77F62958953600E2E73F /* ProfileHeaderViewModel.swift */; };
 		DF2EDE6D29409FFD00B456AF /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2EDE6C29409FFD00B456AF /* UserService.swift */; };
 		DF2EDE6F2940A3CD00B456AF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2EDE6E2940A3CD00B456AF /* User.swift */; };
+		DF2EE3982998008500B0D3BF /* EditProfileFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2EE3972998008500B0D3BF /* EditProfileFooter.swift */; };
 		DF31CA6E2954DC0D00A72394 /* ProfileFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */; };
 		DF31CA702954E13300A72394 /* ProfileFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF31CA6F2954E13300A72394 /* ProfileFilterCell.swift */; };
 		DF31CA722954F6B300A72394 /* MyNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF31CA712954F6B300A72394 /* MyNavigationController.swift */; };
@@ -77,6 +78,7 @@
 		DF2D77F62958953600E2E73F /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		DF2EDE6C29409FFD00B456AF /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		DF2EDE6E2940A3CD00B456AF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		DF2EE3972998008500B0D3BF /* EditProfileFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFooter.swift; sourceTree = "<group>"; };
 		DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterView.swift; sourceTree = "<group>"; };
 		DF31CA6F2954E13300A72394 /* ProfileFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterCell.swift; sourceTree = "<group>"; };
 		DF31CA712954F6B300A72394 /* MyNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNavigationController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				DF2214742954674700384589 /* ProfileHeader.swift */,
 				DF11A54B29883256001E6B54 /* EditProfileHeader.swift */,
+				DF2EE3972998008500B0D3BF /* EditProfileFooter.swift */,
 				DF31CA6D2954DC0D00A72394 /* ProfileFilterView.swift */,
 				DF31CA6F2954E13300A72394 /* ProfileFilterCell.swift */,
 				DF11A54F29883904001E6B54 /* EditProfileTableViewCell.swift */,
@@ -442,6 +445,7 @@
 				DF31CA6E2954DC0D00A72394 /* ProfileFilterView.swift in Sources */,
 				DFDF042629449F39007C1EFF /* InputTextView.swift in Sources */,
 				DFF59900292A3BA5004D777E /* ExploreViewController.swift in Sources */,
+				DF2EE3982998008500B0D3BF /* EditProfileFooter.swift in Sources */,
 				DF4412022971653500976153 /* NotificationTableViewCell.swift in Sources */,
 				DFF59904292A3BD5004D777E /* ConversationsViewController.swift in Sources */,
 				DFC740202987D8CD00997498 /* EditProfileViewController.swift in Sources */,
