@@ -37,11 +37,11 @@ class NotificationsViewController: UIViewController {
         refreshControl.beginRefreshing()
         NotificationService.shared.fetchNotifications { notifications in
             self.notifications = notifications
+            self.checkIfUserIsFollowed(notifications: notifications)
             self.notifications = notifications.sorted(by: {
                 $0.timestamp ?? Date() > $1.timestamp ?? Date()
             })
             self.tableView.reloadData()
-            self.checkIfUserIsFollowed(notifications: notifications)
             self.refreshControl.endRefreshing()
         }
     }
@@ -60,9 +60,8 @@ class NotificationsViewController: UIViewController {
             UserService.shared.checkIfUserIsFollowed(uid: user.uid) { isFollowed in
                 
                 if let index = self.notifications.firstIndex(where: {  $0.user.uid == notification.user.uid }) {
-                    self.notifications[index].user.isFollowed = true
+                    self.notifications[index].user.isFollowed = isFollowed
                 }
-                self.tableView.reloadData()
             }
         }
     }
